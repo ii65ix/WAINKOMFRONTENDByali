@@ -16,7 +16,13 @@ export const getOrgProfile = async () => {
     const { data } = await instance.get<OrganizerInfo>("/organizer/my-profile");
     return data;
   } catch (error: any) {
-    console.log("getOrgProfile error:", error?.response?.status, error?.response?.data);
+    if (__DEV__) {
+      console.log(
+        "getOrgProfile error:",
+        error?.response?.status || "no_status",
+        error?.response?.data || error?.message || "unknown_error"
+      );
+    }
     throw error;
   }
 };

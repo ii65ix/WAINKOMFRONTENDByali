@@ -30,14 +30,25 @@ instance.interceptors.response.use(
     return response;
   },
   (error) => {
-    if (error.code === 'ECONNABORTED') {
-      console.error('⏱️  Request timeout - Server may be waking up (Render free tier). Please wait and try again.');
-    } else if (error.response) {
-      console.error(`❌ API Error ${error.response.status}: ${error.config.url}`);
-    } else if (error.request) {
-      console.error('❌ No response from server. Check your internet connection.');
-    } else {
-      console.error('❌ Request failed:', error.message);
+    const isTimeout =
+      error?.code === "ECONNABORTED" || /timeout/i.test(error?.message || "");
+    const status = error?.response?.status;
+    const url = error?.config?.url;
+    const userMessage = isTimeout
+      ? "⏱️  Request timeout - Server may be waking up (Render free tier). Please wait and try again."
+      : status
+      ? `❌ API Error ${status}: ${url}`
+      : error?.request
+      ? "❌ No response from server. Check your internet connection."
+      : `❌ Request failed: ${error?.message || "Unknown error"}`;
+
+    if (error && typeof error === "object") {
+      error.userMessage = userMessage;
+      if (!error.message || isTimeout) error.message = userMessage;
+    }
+
+    if (__DEV__) {
+      console.log(userMessage);
     }
     return Promise.reject(error);
   }

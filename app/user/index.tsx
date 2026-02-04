@@ -4,7 +4,12 @@ import { COLORS } from "@/assets/style/color";
 import { LAYOUT, SPACING, TYPO } from "@/assets/style/stylesheet";
 import ReviewModal from "@/components/ReviewModal";
 import AuthContext from "@/context/authcontext";
-import { getNextWeek, getThisMonth, getThisWeek, getThisWeekend } from "@/utils/dateHelpers";
+import {
+  getNextWeek,
+  getThisMonth,
+  getThisWeek,
+  getThisWeekend,
+} from "@/utils/dateHelpers";
 import { groupEventsByCategory } from "@/utils/eventHelpers";
 import * as Location from "expo-location";
 import { useRouter } from "expo-router";
@@ -125,14 +130,14 @@ export default function Index() {
     const thisWeek = getThisWeek(events);
     const nextWeek = getNextWeek(events);
     const thisMonth = getThisMonth(events);
-    
+
     const result: { [key: string]: EventItem[] } = {};
-    
+
     if (thisWeekend.length > 0) result["This Weekend"] = thisWeekend;
     if (thisWeek.length > 0) result["This Week"] = thisWeek;
     if (nextWeek.length > 0) result["Next Week"] = nextWeek;
     if (thisMonth.length > 0) result["This Month"] = thisMonth;
-    
+
     return result;
   }, [events]);
 
@@ -203,25 +208,46 @@ export default function Index() {
             </Text>
           )}
           {!!item.time && (
-            <Text style={{ color: COLORS.muted, fontSize: 12 }}>{item.time}</Text>
+            <Text style={{ color: COLORS.muted, fontSize: 12 }}>
+              {item.time}
+            </Text>
           )}
         </View>
-        
+
         {/* Organizer Info */}
         {(item.organizerName || item.organizerInfo?.name) && (
-          <View style={{ flexDirection: "row", alignItems: "center", marginTop: 6, columnGap: 6 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginTop: 6,
+              columnGap: 6,
+            }}
+          >
             <Text style={{ color: COLORS.primary, fontSize: 12 }}>🏢</Text>
-            <Text style={{ color: COLORS.muted, fontSize: 12 }} numberOfLines={1}>
+            <Text
+              style={{ color: COLORS.muted, fontSize: 12 }}
+              numberOfLines={1}
+            >
               {item.organizerInfo?.name || item.organizerName}
             </Text>
           </View>
         )}
-        
+
         {/* Rating */}
         {item.rating && (
-          <View style={{ flexDirection: "row", alignItems: "center", marginTop: 6, columnGap: 4 }}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginTop: 6,
+              columnGap: 4,
+            }}
+          >
             <Text style={{ color: "#ffd700", fontSize: 12 }}>⭐</Text>
-            <Text style={{ color: COLORS.muted, fontSize: 12 }}>{item.rating}</Text>
+            <Text style={{ color: COLORS.muted, fontSize: 12 }}>
+              {item.rating}
+            </Text>
           </View>
         )}
       </TouchableOpacity>
@@ -330,7 +356,9 @@ export default function Index() {
               onPress={() =>
                 router.push({
                   pathname: "/user/events",
-                  params: { timeFilter: period.toLowerCase().replace(' ', '_') },
+                  params: {
+                    timeFilter: period.toLowerCase().replace(" ", "_"),
+                  },
                 })
               }
               accessibilityRole="button"
@@ -452,14 +480,17 @@ export default function Index() {
                       ⏰ {selectedEvent.time}
                     </Text>
                   )}
-                  
+
                   {/* Organizer Info */}
-                  {(selectedEvent.organizerName || selectedEvent.organizerInfo?.name) && (
+                  {(selectedEvent.organizerName ||
+                    selectedEvent.organizerInfo?.name) && (
                     <Text style={{ color: COLORS.muted }}>
-                      🏢 {selectedEvent.organizerInfo?.name || selectedEvent.organizerName}
+                      🏢{" "}
+                      {selectedEvent.organizerInfo?.name ||
+                        selectedEvent.organizerName}
                     </Text>
                   )}
-                  
+
                   {/* Rating */}
                   {selectedEvent.rating && (
                     <Text style={{ color: COLORS.muted }}>
@@ -486,7 +517,9 @@ export default function Index() {
               accessibilityRole="button"
               accessibilityLabel="Rate this event"
             >
-              <Text style={{ color: COLORS.backgroundd, fontWeight: "800" }}>⭐ Rate This Event</Text>
+              <Text style={{ color: COLORS.backgroundd, fontWeight: "800" }}>
+                ⭐ Rate This Event
+              </Text>
             </TouchableOpacity>
 
             <TouchableOpacity
@@ -504,7 +537,9 @@ export default function Index() {
               accessibilityRole="button"
               accessibilityLabel="Close event details"
             >
-              <Text style={{ color: COLORS.backgroundd, fontWeight: "800" }}>Close</Text>
+              <Text style={{ color: COLORS.backgroundd, fontWeight: "800" }}>
+                Close
+              </Text>
             </TouchableOpacity>
           </View>
         </View>

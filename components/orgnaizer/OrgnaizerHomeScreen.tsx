@@ -235,11 +235,9 @@ const OrganizerHomeScreen = () => {
                 )}
               </TouchableOpacity>
 
-              {/* Optional logout button beside the plus (uncomment if you want it visible)
               <TouchableOpacity style={styles.circleBtn} onPress={handleLogout}>
-                <Ionicons name="log-out-outline" size={18} color={colors.text} />
+                <Ionicons name="log-out-outline" size={18} color={COLORS.text} />
               </TouchableOpacity>
-              */}
             </View>
           </View>
 
